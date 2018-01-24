@@ -29,6 +29,7 @@ void ArgHandle::deal_args() {
 }
 void ArgHandle::t_handle() {
     getopt_debug();
+
 }
 
 void ArgHandle::none_handle() {
