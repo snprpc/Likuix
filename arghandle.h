@@ -2,7 +2,8 @@
 #define ARGHANDLE_H
 #include <iostream>
 #include <unistd.h>
-
+#include <envinstance.h>
+#include <QDebug>
 class ArgHandle
 {
 public:
@@ -11,6 +12,8 @@ public:
     void deal_args();
 
     void t_handle();
+    void a_handle();
+    void s_handle();
     void none_handle();
 
     void getopt_debug();

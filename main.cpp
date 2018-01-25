@@ -1,22 +1,15 @@
-#include <QCoreApplication>
 #include <iostream>
 #include <unistd.h>
 
-#include "environment.h"
+#include "envinstance.h"
 #include "arghandle.h"
-
+#include <QDebug>
 
 int main(int argc, char* argv[])
 {
-    QCoreApplication a(argc, argv);
-
-    Environment env;
-    env.getTime().show_tm_stamp();
-
     ArgHandle a_handle(argc, argv);
-    //a_handle.show_args();
 
-    while(a_handle.setOpt(getopt(argc, argv, "t:")) != -1) {
+    while(a_handle.setOpt(getopt(argc, argv, "t:a:s:")) != -1) {
         a_handle.deal_args();
     }
 

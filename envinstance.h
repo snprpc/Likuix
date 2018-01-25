@@ -3,8 +3,9 @@
 
 #include <time.h>
 #include <iostream>
-#include <string>
-
+#include <mutex>
+#include <memory>
+#include <vector>
 
 struct TimeStamp
 {
@@ -42,21 +43,54 @@ struct TimeStamp
     }
 };
 
-class Environment
+struct Step
+{
+    std::string m_step_desc;
+    std::string m_step_cmd;
+    std::string m_step_result;
+
+    Step() {}
+    Step(std::string desc, std::string cmd,  std::string result) {
+        this->m_step_desc = desc;
+        this->m_step_cmd = cmd;
+        this->m_step_result = result;
+    }
+    void show_step(int num) {
+        std::cout << "Step" << num << ":" <<std::endl;
+        std::cout << "Step desc: " << this->m_step_desc << std::endl;
+        std::cout << "Step cmd: " << this->m_step_cmd << std::endl;
+        std::cout << "Step result: " << this->m_step_result << std::endl;
+    }
+};
+class EnvInstance
 {
 public:
-    Environment();
+    static EnvInstance* getEnvIns();
     void setTitle(std::string);
     std::string getTitle();
     void setAuthor(std::string);
     std::string getAuthor();
     void setTmUpdate(time_t);
     TimeStamp getTime();
+    void showEnv();
+    void showStep();
+    void setStep(std::string desc, std::string cmd,  std::string result);
+    std::vector<Step> getStep();
+
+private:
+    EnvInstance();
+    EnvInstance(EnvInstance const&);
+    EnvInstance& operator=(EnvInstance const&);
+    ~EnvInstance();
+    static EnvInstance* m_envinstance;
+
 private:
     std::string m_title;
     std::string m_author;
     TimeStamp m_time;
+    std::vector<Step> m_stepVec;
 
 };
+
 
 #endif // ENVIRONMENT_H

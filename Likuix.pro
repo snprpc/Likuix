@@ -16,8 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     arghandle.cpp \
-    envInstance.cpp
+    envinstance.cpp
 
 HEADERS += \
     arghandle.h \
-    envInstance.h
+    envinstance.h
