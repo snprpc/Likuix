@@ -43,24 +43,47 @@ struct TimeStamp
     }
 };
 
+struct StepCmd
+{
+    std::string m_step_cmd;
+    std::string m_step_result;
+    static StepCmd* m_stepCmdIns;
+};
+
 struct Step
 {
     std::string m_step_desc;
-    std::string m_step_cmd;
-    std::string m_step_result;
+    std::vector<StepCmd> m_stepCmdVec;
 
-    Step(std::string desc, std::string cmd,  std::string result) {
-        this->m_step_desc = desc;
-        this->m_step_cmd = cmd;
-        this->m_step_result = result;
+    static Step* m_stepIns;
+
+    Step(char*& optarg){
+        this->m_step_desc = optarg;
     }
+    Step(std::string desc, StepCmd cmd) {
+        this->m_step_desc = desc;
+        this->m_stepCmdVec.push_back(cmd);
+    }
+
+    void clean() {
+        this->m_step_desc = "";
+        this->m_stepCmdVec.clear();
+    }
+
     void show_step(int num) {
         std::cout << "Step" << num << ":" <<std::endl;
-        std::cout << "Step desc: " << this->m_step_desc << std::endl;
-        std::cout << "Step cmd: " << this->m_step_cmd << std::endl;
-        std::cout << "Step result: " << this->m_step_result << std::endl;
+        this->m_stepIns != nullptr ? std::cout << "Step desc: " << this->m_stepIns->m_step_desc << std::endl
+                                   : std::cout << "Step Desc is not defined." << std::endl ;
+        if (this->m_stepCmdVec.size() == 0) {
+
+        }
+        for (auto itor = this->m_stepCmdVec.cbegin(); itor != this->m_stepCmdVec.cend(); ++itor) {
+            std::cout << "Step Cmd: " << itor->m_step_cmd << std::endl;
+            std::cout << "Step Result: " << itor->m_step_result << std::endl;
+        }
     }
 };
+
 class EnvInstance
 {
 public:
@@ -73,7 +96,7 @@ public:
     TimeStamp getTime();
     void showEnv();
     void showStep();
-    void setStep(std::string desc, std::string cmd,  std::string result);
+    void setStep(Step step);
     std::vector<Step> getStep();
 
 private:

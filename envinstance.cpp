@@ -15,7 +15,8 @@ EnvInstance* EnvInstance::getEnvIns() {
     return m_envinstance;
 }
 EnvInstance* EnvInstance::m_envinstance = nullptr;
-
+Step* Step::m_stepIns = nullptr;
+StepCmd* StepCmd::m_stepCmdIns = nullptr;
 
 EnvInstance::EnvInstance() {
 
@@ -49,8 +50,8 @@ void EnvInstance::setTmUpdate(time_t update_time){
 TimeStamp EnvInstance::getTime(){
     return this->m_time;
 }
-void EnvInstance::setStep(std::string desc, std::string cmd,  std::string result) {
-    Step step(desc, cmd, result);
+
+void EnvInstance::setStep(Step step) {
     this->m_stepVec.push_back(step);
 }
 

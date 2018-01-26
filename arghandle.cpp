@@ -25,6 +25,8 @@ void ArgHandle::deal_args() {
         case 'a':
             a_handle();
             break;
+        case 'r':
+        case 'c':
         case 's':
             s_handle();
             break;
@@ -48,17 +50,40 @@ void ArgHandle::a_handle() {
 }
 
 void ArgHandle::s_handle() {
-    this->getopt_debug();
-    qDebug("S_handle Output: ");
-    // get step desc
-    std::string desc = optarg;
-    // get step cmd
-    std::string cmd = " ";
-    // get step result
-    std::string result = " ";
-    EnvInstance::getEnvIns()->setStep(desc, cmd, result);
-    EnvInstance::getEnvIns()->showEnv();
 
+
+    switch (this->m_opt) {
+        case 's':
+            // get step desc
+            qDebug("S_handle Output: ");
+            // this->getopt_debug();
+            if (Step::m_stepIns == nullptr) {
+                Step::m_stepIns = new Step(optarg);
+            } else {
+                EnvInstance::getEnvIns()->setStep(*Step::m_stepIns);
+                Step::m_stepIns->clean();
+                Step::m_stepIns->m_step_desc = optarg;
+            }
+            break;
+        case 'c':
+            if (Step::m_stepIns == nullptr) {
+                std::cout << "Please Input Command Description First:(use -s)" << std::endl;
+                break;
+            }
+            qDebug("C_handle Output: ");
+            // this->getopt_debug();
+            if (StepCmd::m_stepCmdIns == nullptr) {
+                StepCmd::m_stepCmdIns = new StepCmd();
+            }
+            StepCmd::m_stepCmdIns->m_step_cmd = optarg;
+            Step::m_stepIns->m_stepCmdVec.push_back(*StepCmd::m_stepCmdIns);
+            EnvInstance::getEnvIns()->setStep(*Step::m_stepIns);
+            EnvInstance::getEnvIns()->showEnv();
+            break;
+        case 'r':
+            qDebug("R_handle Output: ");
+            break;
+    }
 }
 void ArgHandle::none_handle() {
     qDebug("None_Handle: ");
