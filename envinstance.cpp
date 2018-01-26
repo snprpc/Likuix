@@ -30,7 +30,6 @@ EnvInstance& EnvInstance::operator=(EnvInstance const&) {
 
 }
 
-
 void EnvInstance::setTitle(std::string title){
     this->m_title = title;
 }
@@ -60,10 +59,9 @@ std::vector<Step> EnvInstance::getStep() {
 }
 
 void EnvInstance::showStep() {
-
-    std::vector<Step> stepVec = getStep();
-    for (int num = stepVec.size(), i = 1; i <= num; ++i) {
-        stepVec[i].show_step(i);
+    std::vector<Step> step (EnvInstance::getEnvIns()->getStep());
+    for (int num= step.size(), i = 1; i <= num; ++i) {
+        step[i-1].show_step(num);
     }
 }
 void EnvInstance::showEnv() {
@@ -81,8 +79,7 @@ void EnvInstance::showEnv() {
     }
     // show timestamp
     this->getTime().show_tm_stamp();
-
     //show step
-
+    this->showStep();
 
 }

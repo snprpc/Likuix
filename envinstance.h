@@ -6,7 +6,7 @@
 #include <mutex>
 #include <memory>
 #include <vector>
-
+#include <QDebug>
 struct TimeStamp
 {
     tm* m_create_time;
@@ -49,7 +49,6 @@ struct Step
     std::string m_step_cmd;
     std::string m_step_result;
 
-    Step() {}
     Step(std::string desc, std::string cmd,  std::string result) {
         this->m_step_desc = desc;
         this->m_step_cmd = cmd;

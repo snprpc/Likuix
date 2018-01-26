@@ -57,6 +57,7 @@ void ArgHandle::s_handle() {
     // get step result
     std::string result = " ";
     EnvInstance::getEnvIns()->setStep(desc, cmd, result);
+    EnvInstance::getEnvIns()->showEnv();
 
 }
 void ArgHandle::none_handle() {
